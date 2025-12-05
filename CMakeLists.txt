@@ -1,15 +1,27 @@
-﻿# CMakeList.txt: проект CMake для Lab4OS-Sync; включите исходный код и определения,
-# укажите здесь логику для конкретного проекта.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required(VERSION 3.8)
+project(Lab4OSSync)
 
-project ("Lab4OS-Sync")
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Добавьте источник в исполняемый файл этого проекта.
-add_executable (Lab4OS-Sync "receiver.cpp" "manager.h" "manager.cpp")
+add_library(manager STATIC
+    manager/manager.cpp
+    manager/manager.h
+)
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET Lab4OS-Sync PROPERTY CXX_STANDARD 20)
+add_executable(Receiver
+    Receiver/Receiver.cpp
+    Receiver/Receiver.h
+)
+target_link_libraries(Receiver PUBLIC manager)
+
+add_executable(Sender
+    Sender/Sender.cpp
+    Sender/Sender.h
+)
+target_link_libraries(Sender PUBLIC manager)
+
+if (WIN32)
+    target_link_libraries(Receiver PUBLIC ws2_32)
+    target_link_libraries(Sender PUBLIC ws2_32)
 endif()
-
-# TODO: Добавьте тесты и целевые объекты, если это необходимо.

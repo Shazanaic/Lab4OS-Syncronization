@@ -8,7 +8,7 @@
 HANDLE hMutex = nullptr;
 HANDLE hFull = nullptr;
 HANDLE hEmpty = nullptr;
-const int MAXLEN = 25;
+const int MAXLEN = 20;
 
 struct FIFOHeader {
 	int head = 0;
